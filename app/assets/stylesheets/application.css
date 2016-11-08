@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+
+
+.myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+header h1 {
+  font-variant: small-caps;
+  margin-top: 32px;
+}
+
+nav {
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 980px;
+}
+
+nav input { padding: 0 8px; vertical-align: middle; }
+
+#mobile_menu { cursor: pointer; }
