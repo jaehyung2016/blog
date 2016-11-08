@@ -22,7 +22,7 @@ header h1 {
   margin-top: 32px;
 }
 
-nav {
+#menu_bar {
   font-weight: bold;
   position: fixed;
   top: 0;
@@ -30,6 +30,19 @@ nav {
   max-width: 980px;
 }
 
-nav input { padding: 0 8px; vertical-align: middle; }
+#menu_bar input { padding: 0 8px; vertical-align: middle; }
 
 #mobile_menu { cursor: pointer; }
+
+#login_box > div {
+  max-width: 600px;
+}
+
+#signup_tab {
+  display: none;
+}
+
+nav a {
+  display: block;
+  outline-style: none;
+}
