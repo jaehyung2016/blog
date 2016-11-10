@@ -35,7 +35,11 @@ header h1 {
 #mobile_menu { cursor: pointer; }
 
 #login_box > div {
-  max-width: 600px;
+  max-width: 400px;
+}
+
+#login_box input {
+  font-weight: bold;
 }
 
 #signup_tab {

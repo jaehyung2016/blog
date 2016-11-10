@@ -28,21 +28,31 @@ $(document).on("turbolinks:load", function() {
 
 // switch tabs in login modal box
   var login_tab_link = $("a[href='#login_tab']");
-  var signup_tab_link = $("a[href='#signup_tab']");
+  var signup_tab_link = $("#signup_tab_link");
 
   login_tab_link.on("click", function(event) {
-    event.preventDefault();
     login_tab_link.parent().addClass("w3-theme-d1");
     signup_tab_link.parent().removeClass("w3-theme-d1");
     $("#login_tab").show();
     $("#signup_tab").hide();
+    event.preventDefault();
   });
 
-  signup_tab_link.on("click", function(event) {
-    event.preventDefault();
-    signup_tab_link.parent().addClass("w3-theme-d1");
-    login_tab_link.parent().removeClass("w3-theme-d1");
-    $("#signup_tab").show();
-    $("#login_tab").hide();
+  signup_tab_link.on({
+    click: function(event) {
+      signup_tab_link.parent().addClass("w3-theme-d1");
+      login_tab_link.parent().removeClass("w3-theme-d1");
+      $("#signup_tab").show();
+      $("#login_tab").hide();
+      event.preventDefault();
+    }, "ajax:success": function(event, data, status, xhr) {
+      $("#signup_tab").html(data);
+      $(this).attr("href", "#signup_tab").removeAttr("data-remote");
+    }, "ajax:error": function(event, xhr, status, error) {
+      $("#signup_tab").html(error);
+      console.log(xhr);
+      console.log(status);
+    }
   });
+
 });

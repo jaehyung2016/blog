@@ -1,5 +1,5 @@
 <div class="w3-modal w3-animate-opacity" id="login_box">
-  <div class="w3-modal-content w3-card-4 w3-animate-zoom w3-display-container">
+  <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-display-container">
     <span class="w3-closebtn w3-container w3-display-topright w3-theme-transparent w3-text-white w3-hover-text-aqua" title="Close">&times;</span>
 
     <nav class="w3-row w3-navbar w3-theme-d4 w3-padding-0" id="tab_links">
@@ -9,18 +9,17 @@
         </a>
       </div>
       <div class="w3-col s6 m6 l6 w3-padding-8 w3-hover-theme">
-        <a href="#signup_tab">
+        <%= link_to new_user_path(format: :js), remote: true, id: "signup_tab_link"  do %>
           <b>Sign&nbsp;up</b>
-        </a>
+        <% end %>
       </div>
     </nav>
 
     <div id="login_tab">
-      login form
+      <%= render "layouts/login_form" %>
     </div>
 
     <div id="signup_tab">
-      sign up form
     </div>
 
   </div>
