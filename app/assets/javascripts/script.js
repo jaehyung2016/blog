@@ -46,13 +46,35 @@ $(document).on("turbolinks:load", function() {
       $("#login_tab").hide();
       event.preventDefault();
     }, "ajax:success": function(event, data, status, xhr) {
-      $("#signup_tab").html(data);
+      $(data).attr("data-remote", "true").appendTo("#signup_tab");
       $(this).attr("href", "#signup_tab").removeAttr("data-remote");
     }, "ajax:error": function(event, xhr, status, error) {
       $("#signup_tab").html(error);
       console.log(xhr);
       console.log(status);
+      console.log(error);
     }
   });
 
+// sign-up form ajax call response process
+  $("#signup_tab").on("ajax:error", function(event, xhr, status, error) {
+    $(this).empty();
+    $(xhr.responseText).attr("data-remote", "true").appendTo(this);
+    console.log(xhr);
+    console.log(status);
+    console.log(error);
+  }).on("ajax:success", function() {
+  // TODO // sign-up form ajax call response process
+  });
+  
+
+// login form ajax call response process
+  $("#login_tab").on("ajax:error", function(event, xhr, status, error) {
+    $(this).html(xhr.responseText);
+    console.log(xhr);
+    console.log(status);
+    console.log(error);
+  }).on("ajax:success", function() {
+  // TODO // login form ajax call response process
+  });
 });

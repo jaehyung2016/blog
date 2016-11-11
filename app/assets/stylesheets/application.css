@@ -14,7 +14,6 @@
  *= require_self
  */
 
-
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
 header h1 {
@@ -50,3 +49,18 @@ nav a {
   display: block;
   outline-style: none;
 }
+
+.field label {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.field input {
+  box-sizing: border-box;
+  border: 0 solid #3f51b5;
+  border-bottom-width: 1px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  width: 100%;
+}
+
