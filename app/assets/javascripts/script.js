@@ -70,7 +70,13 @@ $(document).on("turbolinks:load", function() {
 
 // login form ajax call response process
   $("#login_tab").on("ajax:error", function(event, xhr, status, error) {
-    $(this).html(xhr.responseText);
+    // $(this).html(xhr.responseText);
+    var elem = $(this);
+    if ( elem.find("#error_explanation").length == 0 ) {
+      $('<p id="error_explanation" class="w3-panel w3-left-align w3-padding w3-red"></P>')
+        .html( $("<b/>").text(xhr.responseJSON.error) )
+        .prependTo( elem.children() );
+    }
     console.log(xhr);
     console.log(status);
     console.log(error);
