@@ -11,17 +11,37 @@
       <% end %>
     </li>
     <li class="w3-hide-small w3-navitem w3-hover-theme">
-      <%= form_tag "", method: "get", remote: true do %>
+      <%= form_tag "", method: "get", remote: true, id: "search_form" do %>
         <%= text_field_tag "search", nil, class: ["w3-border-0", "w3-theme-l5"], placeholder: "Search"%>
         <button class="w3-btn w3-padding-0 w3-transparent">
           <%= content_tag :span, "", class: "fa fa-search" %>
         </button>
       <% end %>
     </li>
-    <li class="w3-hide-small w3-right">
+    <li id="login_menu" class="w3-hide-small w3-right"
+      <%= "style='display: none;'".html_safe if logged_in? %>
+    >
       <a class="w3-hover-theme" href="#login_box">
         <span class="fa fa-user"></span>&nbsp;Login
       </a>
+    </li>
+    <li id="current_user_menu" class="w3-hide-small w3-right w3-dropdown-hover w3-hover-theme"
+      <%= "style='display: none;'".html_safe unless logged_in? %>
+    >
+      <a class="w3-hover-theme">
+        <span class="fa fa-user"></span>&nbsp;
+        <span id="menu_user_name">
+          <%= current_user.first_name if logged_in? %>
+        </span>&nbsp;
+        <span class="fa fa-caret-down"></span>
+      </a>
+      <div class="w3-dropdown-content w3-card-4 w3-theme-l3">
+        <a class="w3-hover-theme">My Account</a>
+        <a class="w3-hover-theme" id="admin_menu"
+          <%= "style='display: none;'".html_safe unless admin? %>
+        >Admin Menu</a>
+        <%= link_to "Logout", logout_path, class: "w3-hover-theme", method: :delete, remote: true %>
+      </div>
     </li>
   </ul>
 </nav>

@@ -35,10 +35,10 @@ header h1 {
 
 #login_box > div {
   max-width: 400px;
+  margin: auto;
 }
 
-#login_box input {
-  font-weight: bold;
+#login_box input { font-weight: bold;
 }
 
 #signup_tab {
@@ -64,3 +64,8 @@ nav a {
   width: 100%;
 }
 
+@media only screen and (min-width:601px) {
+  #current_user_menu .w3-dropdown-content {
+    right: 0;
+  }
+}
