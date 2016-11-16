@@ -37,10 +37,12 @@
       </a>
       <div class="w3-dropdown-content w3-card-4 w3-theme-l3">
         <a class="w3-hover-theme">My Account</a>
-        <a class="w3-hover-theme" id="admin_menu"
-          <%= "style='display: none;'".html_safe unless admin? %>
-        >Admin Menu</a>
-        <%= link_to "Logout", logout_path, class: "w3-hover-theme", method: :delete, remote: true %>
+        <% 
+          html_option = { class: "w3-hover-theme", id: "admin_menu" };
+          html_option[:style] = "display: none;" unless admin?
+        %>
+        <%= link_to "Manage Users", users_path, html_option  %>
+        <%= link_to "Logout", logout_path, class: "w3-hover-theme", method: :delete %>
       </div>
     </li>
   </ul>

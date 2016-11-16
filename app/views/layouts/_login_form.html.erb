@@ -1,14 +1,4 @@
 <%= form_for :user, url: sessions_path(format: :json), remote: true, namespace: :login, html: { class: ["w3-container", "w3-padding-16"] } do |f| %>
-  <% if flash.any? %>
-    <div id="error_explanation" class="w3-panel w3-deep-orange w3-left-align">
-      <ul>
-        <% flash.each do |key, value| %>
-          <li id='<%= key %>'><strong><%= value %></strong></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= f.email_field :email, class: ["w3-input", "w3-border", "w3-border-indigo", "w3-section"], placeholder: "Email", required: "required" %>
   <%= f.password_field :password, class: ["w3-input", "w3-border", "w3-border-indigo", "w3-section"], placeholder: "Password", required: "required" %>
   <%= f.submit :Login, class: ["w3-btn-block", "w3-section", "w3-padding", "w3-theme-d1"] %>

@@ -16,6 +16,8 @@
 
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
+header { padding-top: 16px; }
+
 header h1 {
   font-variant: small-caps;
   margin-top: 32px;
@@ -62,6 +64,28 @@ nav a {
   margin-bottom: 8px;
   font-weight: bold;
   width: 100%;
+}
+
+.actions input {
+  font-weight: bold;
+}
+
+.field_with_errors input {
+  background-color: MistyRose;
+}
+
+tr:nth-child(even) {
+  background-color: #EEE;
+}
+
+#alert {
+  font-weight: bold;
+  color: red;
+}
+
+#notice {
+  font-weight: bold;
+  color: green;
 }
 
 @media only screen and (min-width:601px) {

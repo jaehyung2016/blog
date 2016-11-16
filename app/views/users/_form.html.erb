@@ -16,12 +16,12 @@
 
   <div class="field">
     <%= f.label :password %>
-    <%= f.password_field :password, required: "required" %>
+    <%= f.password_field :password %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, required: "required" %>
+    <%= f.password_field :password_confirmation %>
   </div>
 
   <div class="field">
@@ -31,10 +31,10 @@
 
   <div class="field">
     <%= f.label :last_name %>
-    <%= f.text_field :last_name, required: "required" %>
+    <%= f.text_field :last_name %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "w3-btn-block w3-section w3-padding w3-theme-d1" %>
+    <%= f.submit action_text, class: "w3-btn-block w3-section w3-padding w3-theme-d1" %>
   </div>
 <% end %>

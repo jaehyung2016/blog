@@ -1,13 +1,9 @@
+<div class="w3-container">
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Email:</strong>
   <%= @user.email %>
-</p>
-
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
 </p>
 
 <p>
@@ -20,10 +16,5 @@
   <%= @user.last_name %>
 </p>
 
-<p>
-  <strong>Is admin:</strong>
-  <%= @user.is_admin %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Edit', edit_user_path(@user) %>
+</div>

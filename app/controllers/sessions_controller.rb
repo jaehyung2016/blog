@@ -31,6 +31,9 @@ class SessionsController < ApplicationController
   def destroy
     reset_session
     respond_to do |format|
+      format.html {
+        redirect_to root_path
+      }
       format.json {
         render json: Hash[ request_forgery_protection_token, form_authenticity_token ].to_json
       }

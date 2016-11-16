@@ -1,6 +1,8 @@
-<h1>Editing User</h1>
+<div class="w3-container">
+<p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
 
-<%= render 'form', user: @user %>
+<h4>Edit Profile</h4>
+</div>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= render 'form', user: @user, action_text: "Save" %>

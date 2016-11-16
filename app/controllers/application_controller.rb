@@ -14,4 +14,10 @@ class ApplicationController < ActionController::Base
   def admin?
     current_user && current_user.is_admin
   end
+
+  def require_login
+    unless logged_in?
+      redirect_back(fallback_location: root_path)
+    end
+  end
 end

@@ -62,6 +62,7 @@ $(document).on("turbolinks:load", function() {
       $("#user_email").focus();
     }, "ajax:success": function(event, data, status, xhr) {
       $(data).attr("data-remote", "true").appendTo("#signup_tab");
+      // not necessary to load the form twice
       $(this).attr("href", "#signup_tab").removeAttr("data-remote");
       $("#user_email").focus();
     }, "ajax:error": function(event, xhr, status, error) {
@@ -80,7 +81,8 @@ $(document).on("turbolinks:load", function() {
     $(this).empty();
     $(xhr.responseText).attr("data-remote", "true").appendTo(this);
   }).on("ajax:success", function() {
-  // TODO // sign-up form ajax call response process
+    reset_signup_form( $(this).children() );
+    $("#login_box").hide();
   });
   
 // login form ajax call response process
@@ -131,11 +133,17 @@ $(document).on("turbolinks:load", function() {
   function remove_error_message(elem) {
     var error_elem = elem.find("#error_explanation");
     if ( error_elem.length != 0 ) { error_elem.remove(); }
+    elem.find(".field_with_errors").removeClass("field_with_errors");
   }
 
   function reset_login_form(elem) {
     remove_error_message(elem);
     elem.get(0).reset();
+  }
+
+  function reset_signup_form(elem) {
+    remove_error_message(elem);
+    elem.find("input").val("");
   }
 
   function reset_csrf_token(new_token) {
