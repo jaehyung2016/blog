@@ -1,8 +1,9 @@
-<div class="w3-container">
+<div class="w3-container w3-white">
 <p id="notice"><%= notice %></p>
 <p id="alert"><%= alert %></p>
-
-<h4>Edit Profile</h4>
-</div>
+<h4>My Account</h4>
 
 <%= render 'form', user: @user, action_text: "Save" %>
+
+<%= link_to 'Delete my account', @user, method: :delete, data: { confirm: 'All your posts and comments will be deleted as well. Are you sure?' } %>
+</div>

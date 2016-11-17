@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update, :destroy]
-  before_action :set_user_as_admin, only: [:update, :destroy]
-  before_action :set_user, only: :edit
+  before_action :set_user, only: [:edit, :update]
 
   # GET /users
   # GET /users.json
@@ -56,7 +55,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to edit_user_path(@user), notice: 'User was successfully updated.' }
+        format.html { redirect_to :account, notice: 'Your account information was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -68,13 +67,32 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    begin
+      if current_user.id == params[:id].to_i || admin?
+        @user = User.find(params[:id])
+      else
+        redirect_to root_path and return
+      end
+    rescue ActiveRecord::RecordNotFound => exception
+      logger.debug exception
+      redirect_to root_path and return
+    end
+
     # at least one admin is necessary
     if @user.is_admin && User.where(is_admin: true).count == 1
       redirect_back(fallback_location: root_path, alert: 'You cannot delete the only admin.')
     else
       @user.destroy
       respond_to do |format|
-        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+        format.html {
+          # log out the user if he/she deleted his/her own account
+          if current_user.id == params[:id].to_i
+            reset_session
+            redirect_to root_path
+          else
+            redirect_back fallback_location: root_path, notice: 'User was successfully deleted.' 
+          end
+        }
         format.json { head :no_content }
       end
     end
@@ -83,26 +101,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      if current_user.id == params[:id].to_i
-        @user = User.find(params[:id])
-      else
-        redirect_to root_path
-      end
-    end
-
-    def set_user_as_admin
-      begin
-        if admin?
-          @user = User.find(params[:id])
-        else
-          redirect_to root_path
-        end
-      rescue ActiveRecord::RecordNotFound => exception
-        logger.debug exception
-        redirect_back(fallback_location: root_path)
-      else
-      ensure
-      end
+      @user = current_user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
