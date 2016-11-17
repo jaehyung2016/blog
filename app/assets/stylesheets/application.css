@@ -16,24 +16,34 @@
 
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
-header { padding-top: 16px; }
+footer {
+  margin-bottom: 64px;
+}
 
 header h1 {
   font-variant: small-caps;
-  margin-top: 32px;
+  margin-top: 48px;
 }
 
 #menu_bar {
   font-weight: bold;
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  max-width: 980px;
+}
+
+#menu_bar ul {
+  margin: auto;
 }
 
 #menu_bar input { padding: 0 8px; vertical-align: middle; }
 
 #mobile_menu { cursor: pointer; }
+
+#menu_search_button {
+  margin-left: 4px;
+}
 
 #login_box > div {
   max-width: 400px;
@@ -91,5 +101,24 @@ tr:nth-child(even) {
 @media only screen and (min-width:601px) {
   #current_user_menu .w3-dropdown-content {
     right: 0;
+  }
+ 
+  header h1 {
+    margin-top: 64px;
+  }
+  
+  header+div {
+    margin-top: 32px;
+  }
+}
+
+@media only screen and (min-width:993px) {
+  .w3-content {
+    max-width: 1400px;
+    margin: 0 32px;
+  }
+
+  #menu_bar ul {
+    width: calc(100% - 64px);
   }
 }
