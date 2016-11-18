@@ -16,15 +16,6 @@
 
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
-footer {
-  margin-bottom: 64px;
-}
-
-header h1 {
-  font-variant: small-caps;
-  margin-top: 48px;
-}
-
 #menu_bar {
   font-weight: bold;
   position: fixed;
@@ -50,7 +41,8 @@ header h1 {
   margin: auto;
 }
 
-#login_box input { font-weight: bold;
+#login_box input {
+  font-weight: bold;
 }
 
 #signup_tab {
@@ -60,6 +52,43 @@ header h1 {
 nav a {
   display: block;
   outline-style: none;
+}
+
+tr:nth-child(even) {
+  background-color: #EEE;
+}
+
+h3 {
+  color: green;
+}
+
+input, textarea, button {
+  border: 1px solid;
+}
+
+#alert {
+  font-weight: bold;
+  color: red;
+}
+
+#notice {
+  font-weight: bold;
+  color: green;
+}
+
+.blog_form {
+  max-width: 800px;
+  margin: auto;
+}
+
+.blog_form input, .blog_form textarea, .blog_form button {
+  border-color: rgba(0, 0, 63, 0.3);
+  border-radius: 3px;
+}
+
+.user_form {
+  max-width: 500px;
+  margin: auto;
 }
 
 .field label {
@@ -76,6 +105,11 @@ nav a {
   width: 100%;
 }
 
+.field textarea {
+  border: 1px solid #3f51b5;
+  margin: 8px 0;
+}
+
 .actions input {
   font-weight: bold;
 }
@@ -84,18 +118,22 @@ nav a {
   background-color: MistyRose;
 }
 
-tr:nth-child(even) {
-  background-color: #EEE;
-}
-
-#alert {
-  font-weight: bold;
+.error_explanation ul {
+  list-style: none;
   color: red;
 }
 
-#notice {
-  font-weight: bold;
-  color: green;
+footer {
+  margin-bottom: 64px;
+}
+
+header h1 {
+  font-variant: small-caps;
+  margin-top: 48px;
+}
+
+.w3-content {
+  margin: 0 16px;
 }
 
 @media only screen and (min-width:601px) {
@@ -106,16 +144,11 @@ tr:nth-child(even) {
   header h1 {
     margin-top: 64px;
   }
-  
-  header+div {
-    margin-top: 32px;
-  }
 }
 
 @media only screen and (min-width:993px) {
   .w3-content {
     max-width: 1400px;
-    margin: 0 32px;
   }
 
   #menu_bar ul {

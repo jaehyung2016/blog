@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Jay's Blog</title>
+    <title><%= @page_title or "Jay's Blog" %></title>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -14,9 +14,13 @@
   <body class="w3-theme-l5">
     <div class="w3-content">
       <header class="w3-containter w3-center">
-        <%= render 'layouts/menu' %>
+        <%= render 'menu' %>
         <h1><b>JAY'S BLOG</b></h1>
-        <%= render 'layouts/login_modal' %>
+        <%= render 'login_modal' %>
+        <div>
+          <p id="notice"><%= notice %></p>
+          <p id="alert"><%= alert %></p>
+        </div>
       </header>
       <%= yield %>
       <footer class="w3-center">

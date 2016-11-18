@@ -61,7 +61,9 @@ $(document).on("turbolinks:load", function() {
       event.preventDefault();
       $("#user_email").focus();
     }, "ajax:success": function(event, data, status, xhr) {
-      $(data).attr("data-remote", "true").appendTo("#signup_tab");
+      var elem = $(data);
+      // make_form_remote( elem.find("form") ); // not doing this seems better
+      $("#signup_tab").append(elem);
       // not necessary to load the form twice
       $(this).attr("href", "#signup_tab").removeAttr("data-remote");
       $("#user_email").focus();
@@ -73,18 +75,26 @@ $(document).on("turbolinks:load", function() {
     }
   });
 
+  function make_form_remote(form) {
+    form.attr("data-remote", "true");
+    return form
+  }
+
 // sign-up form ajax call response process
   $("#signup_tab").on("ajax:error", function(event, xhr, status, error) {
     console.log(xhr);
     console.log(status);
     console.log(error);
     $(this).empty();
-    $(xhr.responseText).attr("data-remote", "true").appendTo(this);
-  }).on("ajax:success", function() {
-    reset_signup_form( $(this).children() );
-    $("#login_box").hide();
-  });
-  
+    var elem = $(xhr.responseText);
+    make_form_remote( elem.find("form") );
+    elem.appendTo(this);
+  })
+    .on("ajax:success", function() {
+      reset_signup_form( $(this).children() );
+      $("#login_box").hide();
+    });
+ 
 // login form ajax call response process
   $("#login_tab").on("ajax:error", function(event, xhr, status, error) {
     console.log(xhr);
@@ -99,15 +109,16 @@ $(document).on("turbolinks:load", function() {
       para.html( $("<b/>").text("Unknown error") );
     }
     para.prependTo( form_elem );
-  }).on("ajax:success", function(event, data, status, xhr) {
-    console.log( data );
-    console.log( xhr );
-    $("#login_box").hide();
-    $("#login_menu").hide();
-    show_current_user_menu(data);
-    reset_login_form( $(this).children() );
-    reset_csrf_token(data.authenticity_token);
-  });
+  })
+    .on("ajax:success", function(event, data, status, xhr) {
+      console.log( data );
+      console.log( xhr );
+      $("#login_box").hide();
+      $("#login_menu").hide();
+      show_current_user_menu(data);
+      reset_login_form( $(this).children() );
+      reset_csrf_token(data.authenticity_token);
+    });
 
 // logout
   $("a[href='/logout']").on("ajax:success", function(event, data, status, xhr) {

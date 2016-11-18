@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
       else
         format.html {
           flash.now[:alert] = "Invalid email/password"
-          render partial: "layouts/login_form", status: 422 
+          render partial: "login_form", status: 422 
         }
         format.json {
           render json: '{"error": "Invalid email/password"}', status: 422
