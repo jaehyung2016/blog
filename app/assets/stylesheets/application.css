@@ -81,7 +81,11 @@ input, textarea, button {
   margin: auto;
 }
 
-.blog_form input, .blog_form textarea, .blog_form button {
+.blog_form .w3-row {
+  margin: 8px 0;
+}
+
+.blog_form input, .blog_form textarea {
   border-color: rgba(0, 0, 63, 0.3);
   border-radius: 3px;
 }
@@ -114,22 +118,59 @@ input, textarea, button {
   font-weight: bold;
 }
 
+.field_with_errors {
+  display: inline;
+}
+
 .field_with_errors input {
   background-color: MistyRose;
 }
 
-.error_explanation ul {
-  list-style: none;
+#error_explanation ul {
+  padding-left: 4px;
+}
+
+#error_explanation li {
+  list-style-type: square;
+  list-style-position: inside;
   color: red;
 }
 
-footer {
-  margin-bottom: 64px;
+footer a {
+  text-decoration: none;
 }
 
 header h1 {
   font-variant: small-caps;
   margin-top: 48px;
+}
+
+.blog_form label {
+  display: inline-block;
+  width: 5em;
+  vertical-align: top;
+}
+
+.blog_form input[type='submit'] {
+  padding: 0.1em 0.5em;
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+  transition: box-shadow 0.5s;
+}
+
+.blog_form input[type='submit']:hover {
+  box-shadow: 0 4px 8px gray;
+  transition: box-shadow 0.5s;
+}
+
+.blog_form textarea {
+  height: 15em;
+}
+
+.w3-row input, .w3-row textarea {
+  padding: 0.2em 0.5em;
+  width: 100%;
 }
 
 .w3-content {
@@ -143,6 +184,14 @@ header h1 {
  
   header h1 {
     margin-top: 64px;
+  }
+
+  .w3-row input, .w3-row textarea {
+    width: calc( 100% - 5.3em );
+  }
+
+  .blog_form input[type='submit'] {
+    margin-left: 5.3em;
   }
 }
 

@@ -1,6 +1,6 @@
 <%= form_for(user, html: { class: ["w3-left-align"] }) do |f| %>
   <% if user.errors.any? %>
-    <div id="error_explanation" class="w3-panel w3-red">
+    <div id="error_explanation">
       <ul>
       <% user.errors.full_messages.each do |message| %>
         <li><b><%= message %></b></li>

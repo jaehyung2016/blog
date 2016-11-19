@@ -1,9 +1,11 @@
 <div class="user_form w3-container w3-white">
-<p id="notice"><%= notice %></p>
-<p id="alert"><%= alert %></p>
-<h3>My Account</h3>
+  <p id="notice"><%= notice %></p>
+  <p id="alert"><%= alert %></p>
+  <h3>My Account</h3>
 
-<%= render 'form', user: @user, action_text: "Save" %>
+  <%= render 'form', user: @user, action_text: "Save" %>
 
-<%= link_to 'Delete my account', @user, method: :delete, data: { confirm: 'All your posts and comments will be deleted as well. Are you sure?' } %>
+  <div class="w3-margin-bottom">
+    <%= link_to 'Delete my account', @user, method: :delete, data: { confirm: 'All your posts and comments will be deleted as well. Are you sure?' } %>
+  </div>
 </div>
