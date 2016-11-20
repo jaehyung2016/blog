@@ -16,6 +16,14 @@
 
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
+h1,h2,h3,h4,h5,h6 {
+  color: darkblue;
+}
+
+h6 .update_time {
+  font-size: small;
+}
+
 #menu_bar {
   font-weight: bold;
   position: fixed;
@@ -56,10 +64,6 @@ nav a {
 
 tr:nth-child(even) {
   background-color: #EEE;
-}
-
-h3 {
-  color: green;
 }
 
 input, textarea, button {
@@ -141,8 +145,12 @@ footer a {
 }
 
 header h1 {
-  font-variant: small-caps;
   margin-top: 48px;
+}
+
+header p {
+  font-variant: small-caps;
+/*  text-transform: capitalize; */
 }
 
 .blog_form label {
