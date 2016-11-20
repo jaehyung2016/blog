@@ -1,7 +1,10 @@
 <div class="w3-row">
   <main class="w3-col m8">
     <!-- Blog entry -->
-    <%= render(partial: "article", collection: @posts, spacer_template: "hr_spacer") || render('empty_list') %>
+    <%= render(partial: "article", collection: @articles, spacer_template: "hr_spacer") || render('empty_list') %>
+    <div class="w3-margin w3-center">
+      <%= paginate @articles %>
+    </div>
   </main>
 
   <div class="w3-col m4">
@@ -17,6 +20,7 @@
       <ul>
         <%= render partial: 'list', collection: @posts, as: :article || "There is no post" %>
       </ul>
+      <%= paginate @posts, param_name: :list_page %>
     </div>
 
     <div id="tag_list" class="w3-card-2 w3-margin w3-padding w3-white">
