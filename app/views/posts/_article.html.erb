@@ -1,4 +1,4 @@
-<article class="w3-card-4 w3-margin w3-white">
+<article data-authorid="<%= article.user.id%>" class="w3-card-4 w3-margin w3-white">
 
   <div class="w3-container w3-padding-8">
     <div class="post_title"><%= article.title %></div>
@@ -9,11 +9,19 @@
       <% if true %>
         <div class="w3-col m4 s12">
           <div class="w3-right">
-            <% if author_of? article %>
+            <%
+              display = "none"
+              display = "inline" if author_of? article
+            %>
+            <%= content_tag :span, "data-article-menu" => "edit", style: "display: #{display};" do %>
               <%= link_to 'Edit', edit_post_path(article) %> |
             <% end %>
-            <% if author_of?(article) || admin? %>
-              <%= link_to 'Delete', post_path(article), method: :delete, data: {confirm: "Are you sure?" } %>
+            <%
+              display = "none"
+              display = "inline" if author_of?(article) || admin?
+            %>
+            <%= content_tag :span, "data-article-menu" => "delete", style: "display: #{display};" do %>
+              <%= link_to 'Delete', post_path(article), method: :delete, data: { confirm: "Are you sure?" } %>
             <% end %>
           </div>
         </div>

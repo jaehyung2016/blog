@@ -111,14 +111,34 @@ $(document).on("turbolinks:load", function() {
     para.prependTo( form_elem );
   })
     .on("ajax:success", function(event, data, status, xhr) {
-      console.log( data );
-      console.log( xhr );
       $("#login_box").hide();
       $("#login_menu").hide();
       show_current_user_menu(data);
       reset_login_form( $(this).children() );
       reset_csrf_token(data.authenticity_token);
+      show_article_edit_delete_links(data);
     });
+
+  function show_article_edit_delete_links(login_info) {
+    var articles = $("article");
+    if (login_info.is_admin) {
+      show_article_delete_links(articles);
+    }
+
+    var articles_of_current_user = articles.filter("[data-authorid='" + login_info.user_id + "']");
+    show_article_edit_links(articles_of_current_user);
+    show_article_delete_links(articles_of_current_user);
+  }
+
+  function show_article_delete_links(articles) {
+    var delete_links = articles.find("[data-article-menu='delete']");
+    delete_links.show();
+  }
+
+  function show_article_edit_links(articles) {
+    var edit_links = articles.find("[data-article-menu='edit']");
+    edit_links.show();
+  }
 
 // logout
   $("a[href='/logout']").on("ajax:success", function(event, data, status, xhr) {
