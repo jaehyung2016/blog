@@ -9,8 +9,12 @@
       <% if true %>
         <div class="w3-col m4 s12">
           <div class="w3-right">
-            <%= link_to 'Edit', edit_post_path(article) %> |
-            <%= link_to 'Delete', post_path(article), method: :delete, data: {confirm: "Are you sure?" } %>
+            <% if author_of? article %>
+              <%= link_to 'Edit', edit_post_path(article) %> |
+            <% end %>
+            <% if author_of?(article) || admin? %>
+              <%= link_to 'Delete', post_path(article), method: :delete, data: {confirm: "Are you sure?" } %>
+            <% end %>
           </div>
         </div>
       <% end %>
