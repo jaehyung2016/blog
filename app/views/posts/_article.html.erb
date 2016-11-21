@@ -1,12 +1,24 @@
 <article class="w3-card-4 w3-margin w3-white">
 
   <div class="w3-container w3-padding-8">
-    <h3><b><%= article.title %></b></h3>
-    <h6><span class="w3-opacity update_time"><%= article.updated_at.localtime.strftime "Last updated on %m/%d/%Y"  %></span></h6>
+    <div class="post_title"><%= article.title %></div>
+    <div class="w3-row">
+      <div class="w3-col m8 s12">
+        <span><%= article.updated_at.localtime.strftime "Last updated on %m/%d/%Y"  %></span>
+      </div>
+      <% if true %>
+        <div class="w3-col m4 s12">
+          <div class="w3-right">
+            <%= link_to 'Edit', edit_post_path(article) %> |
+            <%= link_to 'Delete', post_path(article), method: :delete, data: {confirm: "Are you sure?" } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="w3-container">
-    <p><%= article.content %></p>
+    <p><%= simple_format article.content %></p>
     <p class="author_name">
       &mdash;<%= article.user %>
     </p>

@@ -16,11 +16,23 @@
 
 .myfont,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3 {
   color: darkblue;
 }
 
-h6 .update_time {
+h4,h5,h6 {
+  color: green;
+}
+
+.post_title {
+  font-weight: bold;
+  color: darkblue;
+  font-size: larger;
+}
+
+.post_title + div {
+  color: darkblue;
+  opacity: 0.6;
   font-size: small;
 }
 
@@ -148,7 +160,7 @@ header h1 {
   margin-top: 48px;
 }
 
-header p {
+header > p:first-of-type {
   font-variant: small-caps;
 /*  text-transform: capitalize; */
 }
@@ -159,17 +171,24 @@ header p {
   vertical-align: top;
 }
 
-.blog_form input[type='submit'] {
+.blog_form input[type='submit'], .back_button_link {
   padding: 0.1em 0.5em;
   cursor: pointer;
   border: none;
   box-shadow: none;
   transition: box-shadow 0.5s;
+  margin: 0.2em;
 }
 
-.blog_form input[type='submit']:hover {
+.blog_form input[type='submit']:hover, .back_button_link:hover {
   box-shadow: 0 4px 8px gray;
   transition: box-shadow 0.5s;
+}
+
+.back_button_link {
+  display: inline-block;
+  border-radius: 3px;
+  text-decoration: none;
 }
 
 .blog_form textarea {

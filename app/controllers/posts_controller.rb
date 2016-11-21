@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :require_login, except: [:index, :show]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :check_permission, only: [:update, :destroy]
 
   # GET /posts
   # GET /posts.json
@@ -72,5 +73,13 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :content, :user_id)
+    end
+
+    def check_permission
+      unless current_user == @post.user
+        unless params[:action] == "destroy" && admin?
+          redirect_to root_path, alert: "Permission denied"
+        end
+      end
     end
 end
