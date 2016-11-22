@@ -1,11 +1,20 @@
 $(document).on("turbolinks:load", function() {
+// global caching for frequently accessed elememts
+  var elementCaching = {};
+  function getCachedElement(selector) {
+    if (elementCaching[selector] == undefined) {
+      elementCaching[selector] = $(selector);
+    }
+    return elementCaching[selector];
+  }
+
 // show and hide menu items for mobile devices
   var menu_items;
   var show_menu_items = true;
 
   $("#mobile_menu").on("click", function () {
     if (menu_items == undefined) {
-      menu_items = $("#menu_bar .w3-hide-small");
+      menu_items = $("#menu_bar").find(".w3-hide-small");
     }
     if (show_menu_items) {
       menu_items.removeClass("w3-hide-small");
@@ -17,9 +26,11 @@ $(document).on("turbolinks:load", function() {
   });
 
 // show and hide login modal box
+  var login_box = $("#login_box");
+
   $("a[href='#login_box']").on("click", function(event) {
     event.preventDefault();
-    $("#login_box").show();
+    login_box.show();
     set_focus_to_email_input();
   });
 
@@ -35,19 +46,21 @@ $(document).on("turbolinks:load", function() {
     }
   }
 
-  $("#login_box .w3-closebtn").on("click", function() {
-    $("#login_box").hide();
+  login_box.find(".w3-closebtn").on("click", function() {
+    login_box.hide();
   });
 
 // switch tabs in login modal box
   var login_tab_link = $("a[href='#login_tab']");
   var signup_tab_link = $("#signup_tab_link");
+  var login_tab = $("#login_tab");
+  var signup_tab = $("#signup_tab");
 
   login_tab_link.on("click", function(event) {
     login_tab_link.parent().addClass("w3-theme-d1");
     signup_tab_link.parent().removeClass("w3-theme-d1");
-    $("#login_tab").show();
-    $("#signup_tab").hide();
+    login_tab.show();
+    signup_tab.hide();
     event.preventDefault();
     $("#login_user_email").focus();
   });
@@ -56,14 +69,14 @@ $(document).on("turbolinks:load", function() {
     click: function(event) {
       signup_tab_link.parent().addClass("w3-theme-d1");
       login_tab_link.parent().removeClass("w3-theme-d1");
-      $("#signup_tab").show();
-      $("#login_tab").hide();
+      signup_tab.show();
+      login_tab.hide();
       event.preventDefault();
       $("#user_email").focus();
     }, "ajax:success": function(event, data, status, xhr) {
       var elem = $(data);
       // make_form_remote( elem.find("form") ); // not doing this seems better
-      $("#signup_tab").append(elem);
+      signup_tab.append(elem);
       // not necessary to load the form twice
       $(this).attr("href", "#signup_tab").removeAttr("data-remote");
       $("#user_email").focus();
@@ -71,7 +84,7 @@ $(document).on("turbolinks:load", function() {
       console.log(xhr);
       console.log(status);
       console.log(error);
-      $("#signup_tab").html(error);
+      signup_tab.html(error);
     }
   });
 
@@ -81,7 +94,7 @@ $(document).on("turbolinks:load", function() {
   }
 
 // sign-up form ajax call response process
-  $("#signup_tab").on("ajax:error", function(event, xhr, status, error) {
+  signup_tab.on("ajax:error", function(event, xhr, status, error) {
     console.log(xhr);
     console.log(status);
     console.log(error);
@@ -92,11 +105,11 @@ $(document).on("turbolinks:load", function() {
   })
     .on("ajax:success", function() {
       reset_signup_form( $(this).children() );
-      $("#login_box").hide();
+      login_box.hide();
     });
  
 // login form ajax call response process
-  $("#login_tab").on("ajax:error", function(event, xhr, status, error) {
+  login_tab.on("ajax:error", function(event, xhr, status, error) {
     console.log(xhr);
     console.log(status);
     console.log(error);
@@ -111,7 +124,7 @@ $(document).on("turbolinks:load", function() {
     para.prependTo( form_elem );
   })
     .on("ajax:success", function(event, data, status, xhr) {
-      $("#login_box").hide();
+      login_box.hide();
       $("#login_menu").hide();
       show_current_user_menu(data);
       reset_login_form( $(this).children() );
@@ -149,16 +162,16 @@ $(document).on("turbolinks:load", function() {
 
 // helper functions
   function show_current_user_menu(login_info) {
-    $("#menu_user_name").text(login_info.first_name);
+    getCachedElement("#menu_user_name").text(login_info.first_name);
     if (login_info.is_admin) {
-      $("#admin_menu").show();
+      getCachedElement("#admin_menu").show();
     }
-    $("#current_user_menu").show();
+    getCachedElement("#current_user_menu").show();
   }
 
   function hide_current_user_menu() {
-    $("#current_user_menu").hide();
-    $("#menu_user_name").empty();
+    getCachedElement("#current_user_menu").hide();
+    getCachedElement("#menu_user_name").empty();
   }
 
   function remove_error_message(elem) {
@@ -178,7 +191,7 @@ $(document).on("turbolinks:load", function() {
   }
 
   function reset_csrf_token(new_token) {
-    $("meta[name='csrf-token']").attr("content", new_token);
+    getCachedElement("meta[name='csrf-token']").attr("content", new_token);
     $("input[name='authenticity_token']").val(new_token);
   }
 
