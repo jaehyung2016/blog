@@ -203,4 +203,25 @@ $(document).on("turbolinks:load", function() {
     }
   });
 
+// ajax for pagination links // TODO
+  var main_elem = $("main");
+  main_elem.on("ajax:success", function( event, data, status, xhr) {
+    $(this).html(data);
+  })
+    .on("ajax:error", function( event, xhr, status, error ) {
+      console.log(xhr);
+      console.log(status);
+      console.log(error);
+    });
+
+  var list_elem = $("#post_list");
+  list_elem.on("ajax:success", function( event, data, status, xhr) {
+    $(this).html(data);
+  })
+    .on("ajax:error", function( event, xhr, status, error ) {
+      console.log(xhr);
+      console.log(status);
+      console.log(error);
+    });
+
 });

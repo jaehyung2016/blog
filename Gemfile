@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # kaminari paginator gem
 # rails g kaminari:views default
-gem 'kaminari'
+gem 'kaminari', :git => 'https://github.com/amatsuda/kaminari.git'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'

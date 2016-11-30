@@ -2,7 +2,7 @@
   <main class="w3-col m8">
     <%= render( partial: "article", collection: @articles, spacer_template: "hr_spacer" ) || render('empty_list') %>
     <div class="w3-margin w3-center">
-      <%= paginate @articles %>
+      <%= paginate @articles, remote: true, params: { action: :page } %>
     </div>
   </main>
 

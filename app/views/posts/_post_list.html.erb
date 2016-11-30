@@ -1,0 +1,5 @@
+<h4>Posts</h4>
+<ul class="w3-padding-0">
+  <%= render( partial: 'list_item', collection: @list, as: :article ) || render('empty_list') %>
+</ul>
+<%= paginate @list, param_name: :list_page, remote: true, params: { controller: :posts, action: :list} %>

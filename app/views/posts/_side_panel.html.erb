@@ -10,11 +10,7 @@
 </div>
 
 <div id="post_list" class="w3-card-2 w3-margin w3-container w3-white">
-  <h4>Posts</h4>
-  <ul class="w3-padding-0">
-    <%= render( partial: 'list', collection: @posts, as: :article ) || render('empty_list') %>
-  </ul>
-  <%= paginate @posts, param_name: :list_page %>
+  <%= render 'post_list' %>
 </div>
 
 <div id="author_list" class="w3-card-2 w3-margin w3-padding w3-white">

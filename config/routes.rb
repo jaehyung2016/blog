@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   root 'posts#index'
-  get 'page/:page/', action: :index, controller: :posts, as: :page
+# get 'page/:page/', action: :index, controller: :posts, as: :page
 
   resources :posts do
 #   resources :comments, shallow: true #TODO
     get 'search', on: :collection #TODO  
     get 'preview', on: :new #TODO
-#   get 'page/:page', action: :index, on: :collection
+    get 'page/:page', action: :page, on: :collection
+    get 'list/:list_page', action: :list, on: :collection
   end
 
   resources :users, except: [:show, :edit]
