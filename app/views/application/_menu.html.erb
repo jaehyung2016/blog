@@ -11,7 +11,7 @@
       <% end %>
     </li>
     <li class="w3-hide-small w3-navitem w3-hover-theme">
-      <%= form_tag "", method: "get", remote: true, id: "search_form" do %>
+      <%= form_tag search_posts_path, method: "get", remote: true, id: "search_form" do %>
         <%= text_field_tag "search", nil, class: ["w3-border-0", "w3-theme-l5"], placeholder: "Search"%>
         <button id="menu_search_button" class="w3-btn w3-padding-0 w3-transparent">
           <%= content_tag :span, "", class: "fa fa-search" %>

@@ -1,4 +1,4 @@
-$(document).on("turbolinks:load", function() {
+$(document).on("turbolinks:load", function () {
 // global caching for frequently accessed elememts
   var elementCaching = {};
   function getCachedElement(selector) {
@@ -28,7 +28,7 @@ $(document).on("turbolinks:load", function() {
 // show and hide login modal box
   var login_box = $("#login_box");
 
-  $("a[href='#login_box']").on("click", function(event) {
+  $("a[href='#login_box']").on("click", function (event) {
     event.preventDefault();
     login_box.show();
     set_focus_to_email_input();
@@ -46,7 +46,7 @@ $(document).on("turbolinks:load", function() {
     }
   }
 
-  login_box.find(".w3-closebtn").on("click", function() {
+  login_box.find(".w3-closebtn").on("click", function () {
     login_box.hide();
   });
 
@@ -56,7 +56,7 @@ $(document).on("turbolinks:load", function() {
   var login_tab = $("#login_tab");
   var signup_tab = $("#signup_tab");
 
-  login_tab_link.on("click", function(event) {
+  login_tab_link.on("click", function (event) {
     login_tab_link.parent().addClass("w3-theme-d1");
     signup_tab_link.parent().removeClass("w3-theme-d1");
     login_tab.show();
@@ -66,24 +66,22 @@ $(document).on("turbolinks:load", function() {
   });
 
   signup_tab_link.on({
-    click: function(event) {
+    click: function (event) {
       signup_tab_link.parent().addClass("w3-theme-d1");
       login_tab_link.parent().removeClass("w3-theme-d1");
       signup_tab.show();
       login_tab.hide();
       event.preventDefault();
       $("#user_email").focus();
-    }, "ajax:success": function(event, data, status, xhr) {
+    }, "ajax:success": function (event, data, status, xhr) {
       var elem = $(data);
       // make_form_remote( elem.find("form") ); // not doing this seems better
       signup_tab.append(elem);
       // not necessary to load the form twice
       $(this).attr("href", "#signup_tab").removeAttr("data-remote");
       $("#user_email").focus();
-    }, "ajax:error": function(event, xhr, status, error) {
-      console.log(xhr);
-      console.log(status);
-      console.log(error);
+    }, "ajax:error": function (event, xhr, status, error) {
+      log_ajax_error(xhr, status, error);
       signup_tab.html(error);
     }
   });
@@ -94,25 +92,21 @@ $(document).on("turbolinks:load", function() {
   }
 
 // sign-up form ajax call response process
-  signup_tab.on("ajax:error", function(event, xhr, status, error) {
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+  signup_tab.on("ajax:error", function (event, xhr, status, error) {
+    log_ajax_error(xhr, status, error);
     $(this).empty();
     var elem = $(xhr.responseText);
     make_form_remote( elem.find("form") );
     elem.appendTo(this);
   })
-    .on("ajax:success", function() {
+    .on("ajax:success", function () {
       reset_signup_form( $(this).children() );
       login_box.hide();
     });
  
 // login form ajax call response process
-  login_tab.on("ajax:error", function(event, xhr, status, error) {
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+  login_tab.on("ajax:error", function (event, xhr, status, error) {
+    log_ajax_error(xhr, status, error);
     var form_elem = $(this).children();
     remove_error_message(form_elem);
     var para = $('<p id="error_explanation" class="w3-panel w3-left-align w3-padding w3-red"></P>')
@@ -123,8 +117,8 @@ $(document).on("turbolinks:load", function() {
     }
     para.prependTo( form_elem );
   })
-    .on("ajax:success", function(event, data, status, xhr) {
-      login_box.hide();
+    .on("ajax:success", function (event, data, status, xhr) {
+      login_box.hide(); // Add some visual que for successful login // TODO
       $("#login_menu").hide();
       show_current_user_menu(data);
       reset_login_form( $(this).children() );
@@ -153,12 +147,14 @@ $(document).on("turbolinks:load", function() {
     edit_links.show();
   }
 
-// logout
-  $("a[href='/logout']").on("ajax:success", function(event, data, status, xhr) {
+// logout -- currently logout is done with page redirection for simplicity
+/*
+  $("a[href='/logout']").on("ajax:success", function (event, data, status, xhr) {
     $("#login_menu").show();
     hide_current_user_menu();
     reset_csrf_token(data.authenticity_token);
   });
+*/
 
 // helper functions
   function show_current_user_menu(login_info) {
@@ -195,33 +191,65 @@ $(document).on("turbolinks:load", function() {
     $("input[name='authenticity_token']").val(new_token);
   }
 
-// Search form
-  $("#search_form").on({ // TODO
-    submit: function(event) {
-      event.preventDefault();
-      alert( "Not implemented yet");
-    }
-  });
-
-// ajax for pagination links // TODO
-  var main_elem = $("main");
-  main_elem.on("ajax:success", function( event, data, status, xhr) {
-    $(this).html(data);
-  })
-    .on("ajax:error", function( event, xhr, status, error ) {
-      console.log(xhr);
-      console.log(status);
-      console.log(error);
-    });
+  function log_ajax_error(xhr, status, error) {
+    console.log(xhr);
+    console.log(status);
+    console.log(error);
+  }
 
   var list_elem = $("#post_list");
-  list_elem.on("ajax:success", function( event, data, status, xhr) {
+  list_elem.on("ajax:success", function ( event, data, status, xhr) {
     $(this).html(data);
   })
-    .on("ajax:error", function( event, xhr, status, error ) {
-      console.log(xhr);
-      console.log(status);
-      console.log(error);
+    .on("ajax:error", function ( event, xhr, status, error ) {
+      log_ajax_error(xhr, status, error);
     });
 
+// navigation with ajax for browsers that supports HTML5 history API
+/*
+  if (Modernizr.history) {
+    // ajax for posts#show action
+    list_elem.on("click", "ul a", function (event) { // jQuery event delegation
+      event.preventDefault();
+      load_article(this.href);
+    });
+
+    // register popstate event handler // TODO
+  } else {
+  }
+
+// ajax for pagination links
+  var main_elem = $("main");
+  main_elem.on("ajax:success", function ( event, data, status, xhr) {
+    console.log(xhr); // TODO pushState
+    console.log(this);
+    console.log(this.url);
+    $(this).html(data);
+  })
+    .on("ajax:error", function ( event, xhr, status, error ) {
+      log_ajax_error(xhr, status, error);
+    });
+
+
+  function load_article(url) {
+    $.ajax({
+      url: url + ".js",
+      type: "GET"
+    })
+      .done(function (data, status, xhr) {
+        main_elem.html(data);
+        update_browser_history(url);
+      })
+      .fail(function (xhr, status, error) {
+        log_ajax_error(xhr, status, error);
+      });
+  }
+
+  function update_browser_history(url) {
+    history.pushState(null, null, url);
+    // TODO title change also
+  }
+
+*/
 });
+

@@ -42,6 +42,7 @@ h4,h5,h6 {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1;
 }
 
 #menu_bar ul {
@@ -152,8 +153,37 @@ input, textarea, button {
   color: red;
 }
 
-footer a {
+aside ul {
+  list-style-type: none;
+}
+
+aside a {
+  color: blue;
+}
+
+aside ul a:hover {
+  color: red;
+}
+
+footer a, ul a, .pagination a {
   text-decoration: none;
+}
+
+.pagination span {
+  padding: 2px;
+  border: 1px solid;
+  border-color: rgba(0,0,255,0.1);
+  border-radius: 3px;
+  margin: 2px;
+  color: blue;
+}
+
+.pagination .current {
+  color: red;
+}
+
+.pagination span:hover:not(.current) {
+  background-color: #d8dcf1;
 }
 
 header h1 {

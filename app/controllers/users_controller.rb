@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       if @user.save
         format.html {
           reset_session
-          redirect_to root_path, notice: 'You have successfully signed up.'
+          redirect_to root_path, notice: 'You have successfully signed up. Please log in to post an article or to leave a comment.'
         }
         format.js {
           render js: 'alert( "You have successfully signed up." )';

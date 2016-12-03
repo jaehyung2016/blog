@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_login, except: [:index, :show, :page, :list]
+  before_action :require_login, except: [:index, :show, :list, :search]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :check_permission, only: [:update, :destroy]
   before_action :set_list, only: [:index, :show, :list] # used to display posts list in side_panel partial view
@@ -10,10 +10,8 @@ class PostsController < ApplicationController
   ARTICLE_COUNT_PER_PAGE = 5
   LIST_COUNT_PER_PAGE = 10
 
-  def page
-    respond_to do |format|
-      format.js { render :page, content_type: "text/html" }
-    end
+  def search
+    render js: "$('main').text('No implemented yet');"
   end
 
   def list
@@ -27,13 +25,17 @@ class PostsController < ApplicationController
   def index
     respond_to do |format|
       format.html {}
-      format.js { render :index,  content_type: "text/html" }
     end
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @page_title = "&mdash;".html_safe + @post.title
+    respond_to do |format|
+      format.html {}
+#     format.js { render partial: 'article', locals: { article: @post }, content_type: "text/html" }
+    end
   end
 
   # GET /posts/new
