@@ -1,0 +1,4 @@
+var content = [];
+content.push('<%= escape_javascript(render( partial: "article", collection: @articles, spacer_template: "hr_spacer" )) %>');
+content.push('<div class="w3-margin w3-center"> <%= escape_javascript(paginate @articles) %> </div>');
+my.getElement("main").html(content.join(""));

@@ -1,4 +1,4 @@
-$(document).on("turbolinks:load", function () {
+$(document).ready(function () {
 // global caching for frequently accessed elememts
   var elementCaching = {};
   function getCachedElement(selector) {
@@ -205,51 +205,75 @@ $(document).on("turbolinks:load", function () {
       log_ajax_error(xhr, status, error);
     });
 
+  var mdash = "\u2014";
+
 // navigation with ajax for browsers that supports HTML5 history API
-/*
   if (Modernizr.history) {
-    // ajax for posts#show action
-    list_elem.on("click", "ul a", function (event) { // jQuery event delegation
+    // add handler to update page in response to browser back and forward button clicks
+    $(window).on("popstate.ajax", function (event) {
+      load_previous_page(event);
+    });
+
+    // add handler to show article with ajax
+    list_elem.on("click.ajax", "ul a", function (event) {
       event.preventDefault();
-      load_article(this.href);
+      load_main_content($(this).text(), this.href, true);
     });
 
-    // register popstate event handler // TODO
+    // add handler to pagination with ajax
+    getCachedElement("main").on("click.ajax", ".pagination a", function (event) {
+      event.preventDefault();
+      var title = "Page " + this.href.split("/").pop();
+      load_main_content(title ,this.href, true);
+    });
   } else {
+    console.log("HTML5 hitory API not supported");
   }
 
-// ajax for pagination links
-  var main_elem = $("main");
-  main_elem.on("ajax:success", function ( event, data, status, xhr) {
-    console.log(xhr); // TODO pushState
-    console.log(this);
-    console.log(this.url);
-    $(this).html(data);
-  })
-    .on("ajax:error", function ( event, xhr, status, error ) {
-      log_ajax_error(xhr, status, error);
-    });
+  function load_previous_page(event) {
+    if (history.state) {
+      var title = history.state.title;
+      load_main_content(title, location.pathname, false );
+    } else {
+      // in case the page was loaded by browser
+      location = location.href;
+    }
+  }
 
-
-  function load_article(url) {
-    $.ajax({
-      url: url + ".js",
-      type: "GET"
+  function load_main_content(title, url, should_push_state) {
+    // update page with ajax
+    var jqxhr = $.ajax({
+      url: url,
+      type: "GET",
+      headers: { 
+        Accept: "*/*;q=0.5, text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+      }
     })
-      .done(function (data, status, xhr) {
-        main_elem.html(data);
-        update_browser_history(url);
-      })
-      .fail(function (xhr, status, error) {
-        log_ajax_error(xhr, status, error);
-      });
+      .done(update_document_title(title));
+
+    // update history unless going back to previous page by popstate event handler
+    if (should_push_state) {
+      var state_obj = {
+        title: title
+      };
+      console.log(state_obj);
+      jqxhr.done(history.pushState(state_obj, title, url));
+    }
   }
 
-  function update_browser_history(url) {
-    history.pushState(null, null, url);
-    // TODO title change also
+  function update_document_title(title) {
+    var title_elem = getCachedElement("title").text(function (idx, old_title) {
+      var new_title = old_title.split(mdash).shift();
+      if (title) {
+        new_title = new_title + mdash + title;
+      }
+      return new_title;
+    });
+    return title_elem.text();
   }
 
-*/
+  window.my = {
+    getElement: getCachedElement
+  };
 });
 

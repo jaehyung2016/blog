@@ -25,6 +25,7 @@ class PostsController < ApplicationController
   def index
     respond_to do |format|
       format.html {}
+      format.js {}
     end
   end
 
@@ -34,7 +35,7 @@ class PostsController < ApplicationController
     @page_title = "&mdash;".html_safe + @post.title
     respond_to do |format|
       format.html {}
-#     format.js { render partial: 'article', locals: { article: @post }, content_type: "text/html" }
+      format.js {}
     end
   end
 

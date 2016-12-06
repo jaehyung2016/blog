@@ -1,0 +1,7 @@
+var content = [];
+content.push('<%= escape_javascript render( "article", article: @post ) %>');
+<%
+  go_back_link = '<a href="javascript:history.back();" class="w3-margin back_button_link w3-theme-d2">Back</a>'.html_safe
+%>
+content.push('<%= escape_javascript(go_back_link) %>');
+my.getElement("main").html(content.join(""));
