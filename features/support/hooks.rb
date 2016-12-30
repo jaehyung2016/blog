@@ -1,3 +1,7 @@
 After do |scenario|
-  save_page if scenario.failed?
+  puts Capybara::current_driver
+  if scenario.failed?
+    sleep(1) if Capybara::current_driver == :selenium
+    # save_and_open_page
+  end
 end

@@ -43,12 +43,11 @@ end
 
 group :test do
   # For testing frameworks
-  gem 'capybara'
-  gem 'poltergeist'
-  gem 'selenium-webdriver'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'launchy'
 end
 

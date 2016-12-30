@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update]
 
   # GET /users
-  # GET /users.json
   def index
     if admin?
       @users = User.all
@@ -13,7 +12,6 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  # GET /users/1.json
   def show
   end
 
@@ -28,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   # POST /users
-  # POST /users.json
   def create
     @user = User.new(user_params)
 
@@ -36,36 +33,30 @@ class UsersController < ApplicationController
       if @user.save
         format.html {
           reset_session
-          redirect_to root_path, notice: 'You have successfully signed up. Please log in to post an article or to leave a comment.'
+          redirect_back fallback_location: root_path, notice: 'You have successfully signed up. Please log in to post an article or to leave a comment.'
         }
         format.js {
           render js: 'alert( "You have successfully signed up." )';
         }
-        format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         format.js { render :new, status: 422, content_type: "text/html" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to :account, notice: 'Your account information was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     begin
       if current_user.id == params[:id].to_i || admin?
@@ -93,7 +84,6 @@ class UsersController < ApplicationController
             redirect_back fallback_location: root_path, notice: 'User was successfully deleted.' 
           end
         }
-        format.json { head :no_content }
       end
     end
   end
