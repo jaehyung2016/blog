@@ -33,6 +33,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a lacinia orci, u
     have_selector "article", count: count
   end
 
+  def open_login_modal_box
+    click_link "Login"
+    expect(page).to have_css("#signup_tab_link")
+  end
+
 end
 
 World StepHelpers
