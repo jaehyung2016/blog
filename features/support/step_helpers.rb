@@ -29,16 +29,51 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a lacinia orci, u
     have_selector "h1", text: "JAY'S BLOG"
   end
 
+  def have_no_articles_message
+    have_selector "main", text: "There are no articles"
+  end
+
   def have_articles count
     have_selector "article", count: count
   end
 
-  def open_login_modal_box
+  def sign_up_with email
     click_link "Login"
     expect(page).to have_css("#signup_tab_link")
+    click_link "signup_tab_link"
+    expect(page).to have_css("#new_user")
+    fill_in "user_email", with: email
+    fill_in "user_password", with: "password"
+    fill_in "user_password_confirmation", with: "password"
+    fill_in "user_first_name", with: "John"
+    fill_in "user_last_name", with: "Doe"
+    click_button "Sign up"
   end
 
-end
+  def log_in_with email
+    click_link "Login"
+    expect(page).to have_field("login_user_email")
+    fill_in "login_user_email", with: email
+    fill_in "login_user_password", with: "password"
+    click_button "Login"
+  end
 
-World StepHelpers
+  def access_current_user_menu
+    find("#menu_user_name").hover # unknown command: :mouse_move_to (ArgumentError) with firefox 50.1.0
+  end
+
+  def open_my_account_page
+    access_current_user_menu
+    expect(page).to have_link "My Account"
+    click_link "My Account"
+    # visit account_path # for firefox browser
+  end
+
+  def log_out
+    access_current_user_menu
+    expect(page).to have_link "Logout"
+    click_link "Logout"
+  end
+  
+end
 

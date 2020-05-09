@@ -7,9 +7,9 @@ When(/^I visit the home page$/) do
   visit root_path
 end
 
-Then(/^I should see index page with "([^"]*)"$/) do |text|
+Then(/^I should see index page indicating there are no articles$/) do
   expect(page).to have_blog_title
-  expect(page).to have_selector "main", text: text
+  expect(page).to have_no_articles_message
 end
 
 Then(/^I should not see any articles$/) do
@@ -36,39 +36,98 @@ Given(/^I am reading an article$/) do
   @current_path = current_path
 end
 
-When(/^I sign up for the blog with email "([^"]*)"$/) do |email|
-  open_login_modal_box
-  expect(page).to have_css("#signup_tab_link")
-  click_link "signup_tab_link"
-  expect(page).to have_css("#new_user")
-  fill_in "user_email", with: email
-  fill_in "user_password", with: "password"
-  fill_in "user_password_confirmation", with: "password"
-  fill_in "user_first_name", with: "John"
-  fill_in "user_last_name", with: "Doe"
-  click_button "Sign up"
+When(/^I sign up for the blog$/) do
+  sign_up_with "john.doe@example.com"
 end
 
-Then(/^I should see "([^"]*)"$/) do |text|
-  expect(page).to have_content(text)
+Then("I should see a notice message for successful sign-up") do
+  expect(page).to have_content("You have successfully signed up.")
 end
 
-Then(/^I am still on the same web page$/) do
+When(/^I try to sign up with an existing email$/) do
+  sign_up_with "john.doe@example.net"
+end
+
+Then("I should see an error message for sign-up failure") do
+  expect(page).to have_content("Email john.doe@example.net is already registered.")
+end
+
+Then(/^I should be still on the same web page$/) do
   # puts @current_path
   expect(current_path).to eq @current_path
 end
 
-When(/^I log in with email "([^"]*)"$/) do |email|
-  open_login_modal_box
-  expect(page).to have_field("login_user_email")
-  fill_in "login_user_email", with: email
-  fill_in "login_user_password", with: "password"
-  click_button "Login"
+When(/^I log in$/) do
+  log_in_with "john.doe@example.net"
 end
 
-Then(/^I should see "([^"]*)" in the menu bar$/) do |text|
+When("I try to log in with wrong information") do
+  log_in_with "john.doe@example.com"
+end
+
+When("I log out") do
+  log_out
+end
+
+Then(/^I should see my name in the menu bar$/) do
   within "#menu_bar" do
-    expect(page).to have_text(text)
+    expect(page).to have_text("John")
   end
+end
+
+Then(/^I should not see my name in the menu bar$/) do
+  within "#menu_bar" do
+    expect(page).not_to have_text("John")
+  end
+end
+
+Then("I should see an error message for log-in failure") do
+  expect(page).to have_text("Invalid email/password")
+end
+
+Then("I should be redirected to home page") do
+  expect(current_path).to eq root_path
+end
+
+Given("I am logged in") do
+  log_in_with "john.doe@example.net"
+end
+
+When("I open My Account page") do
+  open_my_account_page
+end
+
+Then("I should see current account information") do
+  expect(page).to have_field("user_email", with: "john.doe@example.net")
+end
+
+When("I update account information") do
+  fill_in("user_email", with: "john.doe@example.com")
+  click_button "Save"
+end
+
+Then("I should see updated account information") do
+  expect(page).to have_field("user_email", with: "john.doe@example.com")
+end
+
+Then("I should see a notice message for successful update of account information") do
+  expect(page).to have_text("Your account information was successfully updated.")
+end
+
+When("I delete my account") do
+  click_link "Delete my account"
+  accept_confirm
+end
+
+Then("my account should not exist any more") do
+  pending
+end
+
+And("my articles should not exist any more") do
+  pending
+end
+
+And("I should be logged out") do
+  pending
 end
 

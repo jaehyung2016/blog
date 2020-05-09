@@ -1,7 +1,14 @@
+AfterStep do
+  sleep (ENV['PAUSE'] || 0).to_i
+end
+
+After("@javascript") do |scenario|
+  puts "javascript tag"
+end
+
 After do |scenario|
   puts Capybara::current_driver
   if scenario.failed?
-    sleep(1) if Capybara::current_driver == :selenium
-    # save_and_open_page
+    byebug
   end
 end
